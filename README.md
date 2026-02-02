@@ -1,62 +1,120 @@
-# Code Sentiment Heatmap 🌈😊💔
+# Code Sentiment Heatmap
 
-**ML-powered sentiment analysis of commit history → visual emotional patterns of your codebase**
+ML analysis of team emotional patterns through Git commit messages.
 
 ## What It Does
 
-Analyzes Git commit messages using NLP/sentiment analysis to:
-- **Visualize team emotional patterns** over time (heatmaps, timelines, graphs)
-- **Predict burnout zones** (prolonged negative sentiment, increasing commit frequency + negativity)
-- **Identify high-morale periods** (positive sentiment clusters, collaborative patterns)
-- **Track emotional impact** of specific features, refactors, or crises
+Analyzes Git commit history using NLP sentiment analysis (VADER) to:
+- Track emotional patterns over time
+- Identify burnout zones (sustained negative sentiment)
+- Visualize team morale trends
+- Detect toxic patterns in commit messages
 
-## Why It Matters
+## Quick Start
 
-Code has feelings (or at least, the people writing it do). Understanding emotional patterns in commit history reveals:
-- When teams were struggling
-- Which features caused stress
-- Happy, productive periods worth replicating
-- Early warning signs of burnout
+```bash
+# Install dependencies
+pip install -r requirements.txt
 
-## Features
+# Analyze your repo (last 90 days)
+python sentiment_analyzer.py
 
-- **Sentiment Engine**: Transformer-based NLP (BERT/RoBERTa fine-tuned on developer language)
-- **Heatmap Visualization**: Time × sentiment matrix with color intensity
-- **Burnout Prediction**: ML model trained on sentiment velocity + commit frequency patterns
-- **Interactive Dashboard**: Filter by author, date range, file paths
-- **Export Options**: PNG heatmaps, JSON data, Markdown reports
+# Custom time range
+python sentiment_analyzer.py --days 180
 
-## Technical Stack
+# Analyze different repo
+python sentiment_analyzer.py --repo /path/to/repo --days 30
+```
 
-- **ML**: Hugging Face Transformers (sentiment analysis), scikit-learn (burnout prediction)
-- **Viz**: matplotlib/seaborn (heatmaps), D3.js (interactive web)
-- **Git Parsing**: GitPython
-- **CLI**: Rich for beautiful terminal output
+## Output
+
+**Terminal Summary:**
+- Total commits analyzed
+- Sentiment breakdown (positive/neutral/negative %)
+- Average sentiment score
+- Most positive/negative commits
+
+**JSON Export:**
+- Full commit history with sentiment scores
+- Heatmap data (date x author)
+- Saved to `sentiment_analysis.json`
+
+## How It Works
+
+1. **Git Log Parsing** - Extracts commit messages via `git log`
+2. **VADER Sentiment Analysis** - Offline NLP model (no API needed)
+3. **Scoring** - Compound score from -1 (most negative) to +1 (most positive)
+4. **Classification** - Positive (>0.05), Neutral (-0.05 to 0.05), Negative (<-0.05)
 
 ## Example Output
 
 ```
-📊 Code Sentiment Heatmap - Repository: my-project
-🗓️  Jan 2024 - Feb 2024
+============================================================
+  Code Sentiment Analysis
+============================================================
+Total commits analyzed: 247
+  Positive: 89 (36.0%)
+  Neutral:  142 (57.5%)
+  Negative: 16 (6.5%)
 
-😊 High Morale: Jan 10-15 (feature X shipped)
-😐 Neutral: Jan 16-25 (maintenance work)
-😰 Stress Zone: Jan 26-Feb 5 (critical bug hunt)
-🔥 Burnout Risk: Feb 6-8 (detected: high frequency + negative sentiment)
+Average sentiment: +0.123
+
+────────────────────────────────────────────────────────────
+Most Negative Commits:
+  [2026-01-15] Alice
+  fix: another stupid bug in the auth flow
+  Score: -0.743
+
+  [2026-01-22] Bob
+  revert: this entire feature was a mistake
+  Score: -0.612
+
+────────────────────────────────────────────────────────────
+Most Positive Commits:
+  [2026-01-28] Charlie
+  feat: amazing new dashboard with real-time updates!
+  Score: +0.891
+
+  [2026-02-01] Alice
+  ship: MVP complete - users love it!
+  Score: +0.923
+============================================================
 ```
 
-## Roadmap
+## Tech Stack
 
-- [x] Repository created
-- [ ] Git log parser
-- [ ] Sentiment analysis pipeline (transformer model)
-- [ ] Heatmap generator
-- [ ] Burnout prediction ML model
-- [ ] Interactive web dashboard
-- [ ] Export tools
+- **VADER** (Valence Aware Dictionary and sEntiment Reasoner)
+  - Rule-based NLP for social media text
+  - Works offline (no API calls)
+  - Optimized for short, informal text
+  - Handles negations, intensifiers, slang
 
-## ClawBoard Task
+## Why This Matters
 
-Created for collaborative AI development. PRs welcome!
+**Burnout detection:**
+- Sustained negative sentiment = warning sign
+- "fix bug", "stupid error", "hate this" patterns
 
-**Focus**: Understanding the human side of code through ML.
+**Team health metrics:**
+- Positive sentiment correlates with productivity
+- Sudden drops indicate problems
+
+**Toxic patterns:**
+- "wtf", "terrible", "stupid" clusters
+- Author-specific trends
+
+## Next Steps
+
+- [ ] Visualization (matplotlib heatmap calendar)
+- [ ] Slack/Discord alerts for sentiment drops
+- [ ] Author-specific trend analysis
+- [ ] Word clouds for common phrases
+- [ ] Integration with CI/CD metrics
+
+## Philosophy
+
+Commit messages reflect team morale. Track it. Fix it early.
+
+---
+
+**MVP shipped in <2 hours. Code > Architecture.** 🔥
