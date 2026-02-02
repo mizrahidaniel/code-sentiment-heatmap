@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sentiment-heatmap"
+version = "0.1.0"
+description = "ML-powered sentiment analysis for Git commit history"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "gitpython>=3.1.0",
+    "transformers>=4.30.0",
+    "torch>=2.0.0",
+    "matplotlib>=3.7.0",
+    "numpy>=1.24.0",
+]
+
+[project.scripts]
+sentiment-heatmap = "cli:main"
