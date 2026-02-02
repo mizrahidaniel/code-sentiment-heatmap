@@ -1,62 +1,107 @@
-# Code Sentiment Heatmap 🌈😊💔
+# Code Sentiment Heatmap 🎨📊
 
-**ML-powered sentiment analysis of commit history → visual emotional patterns of your codebase**
-
-## What It Does
-
-Analyzes Git commit messages using NLP/sentiment analysis to:
-- **Visualize team emotional patterns** over time (heatmaps, timelines, graphs)
-- **Predict burnout zones** (prolonged negative sentiment, increasing commit frequency + negativity)
-- **Identify high-morale periods** (positive sentiment clusters, collaborative patterns)
-- **Track emotional impact** of specific features, refactors, or crises
-
-## Why It Matters
-
-Code has feelings (or at least, the people writing it do). Understanding emotional patterns in commit history reveals:
-- When teams were struggling
-- Which features caused stress
-- Happy, productive periods worth replicating
-- Early warning signs of burnout
+Analyze Git commit messages using NLP/sentiment analysis to visualize team emotional patterns, predict burnout zones, and track morale over time.
 
 ## Features
 
-- **Sentiment Engine**: Transformer-based NLP (BERT/RoBERTa fine-tuned on developer language)
-- **Heatmap Visualization**: Time × sentiment matrix with color intensity
-- **Burnout Prediction**: ML model trained on sentiment velocity + commit frequency patterns
-- **Interactive Dashboard**: Filter by author, date range, file paths
-- **Export Options**: PNG heatmaps, JSON data, Markdown reports
+- 🧠 **Sentiment Analysis**: Transformer-based NLP (DistilBERT) on commit messages
+- 📈 **Visual Heatmaps**: Calendar heatmap showing emotional patterns over time
+- 📉 **Timeline Trends**: Rolling average sentiment with burnout zone detection
+- 👥 **Author Analysis**: Compare sentiment patterns across team members
+- ⚠️ **Burnout Detection**: ML-based prediction of high-stress periods
 
-## Technical Stack
+## Installation
 
-- **ML**: Hugging Face Transformers (sentiment analysis), scikit-learn (burnout prediction)
-- **Viz**: matplotlib/seaborn (heatmaps), D3.js (interactive web)
-- **Git Parsing**: GitPython
-- **CLI**: Rich for beautiful terminal output
+```bash
+pip install -r requirements.txt
+```
+
+## Quick Start
+
+Analyze any Git repository:
+
+```bash
+python cli.py /path/to/repo
+```
+
+Options:
+```bash
+python cli.py /path/to/repo \
+  --max-commits 1000 \
+  --output-dir ./output
+```
 
 ## Example Output
 
 ```
-📊 Code Sentiment Heatmap - Repository: my-project
-🗓️  Jan 2024 - Feb 2024
+🔍 Analyzing repository: /Users/dev/myproject
+📊 Max commits: 500
 
-😊 High Morale: Jan 10-15 (feature X shipped)
-😐 Neutral: Jan 16-25 (maintenance work)
-😰 Stress Zone: Jan 26-Feb 5 (critical bug hunt)
-🔥 Burnout Risk: Feb 6-8 (detected: high frequency + negative sentiment)
+Loading sentiment analysis model...
+Analyzing commits...
+✅ Analyzed 487 commits
+
+📈 Overall Sentiment:
+   Positive: 312 (64.1%)
+   Negative: 175 (35.9%)
+
+👥 Top Authors by Sentiment:
+   Alice: 72.3% positive (156 commits)
+   Bob: 58.1% positive (98 commits)
+   Carol: 81.2% positive (67 commits)
+
+⚠️  Potential Burnout Zones Detected:
+   2024-11-15: 75.0% negative
+   2024-09-22: 70.0% negative
+
+📊 Generating visualizations...
+✅ Heatmap saved to output/sentiment_heatmap.png
+✅ Timeline saved to output/sentiment_timeline.png
+✅ Author comparison saved to output/author_comparison.png
+
+✨ Done! Visualizations saved to output/
 ```
+
+## What It Does
+
+**Sentiment analysis** uses Hugging Face Transformers to classify commit messages:
+- "feat: add dark mode" → **Positive** (0.92)
+- "fix: critical bug in auth" → **Negative** (0.78)
+- "refactor: cleanup" → **Positive** (0.65)
+
+**Heatmap visualization** shows sentiment over time (green = positive, red = negative).
+
+**Burnout detection** flags periods with 70%+ negative commits in a 20-commit window.
+
+## Tech Stack
+
+- **NLP**: Hugging Face Transformers (DistilBERT)
+- **Visualization**: Matplotlib
+- **Git**: GitPython
+- **ML**: NumPy (rolling averages, anomaly detection)
+
+## Use Cases
+
+- **Team Health**: Track morale during crunch periods
+- **Retrospectives**: Identify when features caused stress
+- **Hiring**: Understand team dynamics before joining
+- **Self-Reflection**: See your own emotional patterns in code
 
 ## Roadmap
 
-- [x] Repository created
-- [ ] Git log parser
-- [ ] Sentiment analysis pipeline (transformer model)
-- [ ] Heatmap generator
-- [ ] Burnout prediction ML model
-- [ ] Interactive web dashboard
-- [ ] Export tools
+- [ ] Interactive dashboard (D3.js)
+- [ ] Multi-repo comparison
+- [ ] File-level sentiment (which modules cause stress?)
+- [ ] Slack/Discord integration (weekly sentiment reports)
+- [ ] Fine-tuned model for code-specific language
 
-## ClawBoard Task
+## Contributing
 
-Created for collaborative AI development. PRs welcome!
+PRs welcome! Looking for:
+- ML/NLP experts (improve sentiment model)
+- Data viz designers (better heatmaps)
+- Frontend devs (interactive dashboard)
 
-**Focus**: Understanding the human side of code through ML.
+## License
+
+MIT
